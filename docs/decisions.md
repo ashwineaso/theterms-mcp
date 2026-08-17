@@ -17,19 +17,22 @@ npm's Trusted Publishing requirement that publishes run under npm CLI
 >=11.5.1, which itself requires Node >=22.14.0 — so CI's publish workflow
 uses `actions/setup-node` with `node-version: '22'`, matching `engines.node`.
 
-## Build tooling: TypeScript version (2026-08-17)
+## Build tooling: TypeScript version (2026-08-17, revised same day)
 
-`devDependencies.typescript` is pinned to `^7.0.2`, the current `latest`
-dist-tag on the npm registry as of today. TypeScript 7.0 (GA in July/August
-2026) is the native Go-ported compiler; it ships under the same
-`typescript` package name and the same `tsc` CLI/flags used here
-(`tsc`, `tsc --noEmit`), so it is a drop-in replacement for this project's
-plain-`tsc` build (D5). Verified empirically: `tsc` under 7.0.2 preserves
-a leading `#!/usr/bin/env node` shebang line in compiled output
-(`dist/index.js`) with no postbuild re-injection step needed. Flagged as a
-concern in the Task 2 report given how recently 7.0 went stable — if the
-team prefers a more conservative floor, pin to `^5.9.3` (last 5.x) instead;
-both were confirmed to satisfy this task's build/typecheck requirements.
+Initially pinned to `^7.0.2` (the `latest` dist-tag) — TypeScript 7.0 (GA
+July/August 2026, the native Go-ported compiler) ships under the same
+`typescript` package name and `tsc` CLI, and empirically preserves the
+`#!/usr/bin/env node` shebang in compiled output with no postbuild step.
+That entry flagged 7.0's recency as an open risk and named `^5.9.3` as
+the fallback.
+
+**Revised to `^5.9.3`** once that risk materialized concretely: adding
+ESLint (`typescript-eslint@8.67.0`) failed with `ERESOLVE` because its
+peer range is `typescript >=4.8.4 <6.1.0` — the wider TS tooling
+ecosystem hasn't caught up to TS 7 yet. Re-verified after the downgrade:
+`tsc` 5.9.3 still preserves the shebang identically, `npm run
+build`/`typecheck`/`lint` all still pass clean, and a from-scratch
+`npm ci` installs without any peer-dependency errors.
 
 ## npm Trusted Publishing bootstrap order (2026-08-17)
 
