@@ -1,0 +1,30 @@
+docs/decisions.md
+  s_3a033726412e9f::t_3619d6bc616d78 8-49
+package.json
+  s_3a033726412e9f::t_3e56460f63d80a 11,37-39
+  s_3a033726412e9f::t_8b1b39ef8da4ea 12-26,28-36
+  s_3a033726412e9f::t_1f278b337b9b15 27
+.github/workflows/publish.yml
+  s_3a033726412e9f::t_2deebcaa57557d 1-41
+.github/workflows/ci.yml
+  s_3a033726412e9f::t_1fafc16df2cbb9 16,18
+  s_3a033726412e9f::t_b478f76738df29 1-15,17,19-29
+package-lock.json
+  s_3a033726412e9f::t_73da0201792dc9 1-391
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "def90b6c941ca0149171526b98d86a9efaf640ae",
+  "prompts": {},
+  "sessions": {
+    "s_3a033726412e9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484fc3e6-9b2d-4e4a-a52c-a2e35b7904b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Ashwin Easo <ashwineaso@gmail.com>"
+    }
+  }
+}
