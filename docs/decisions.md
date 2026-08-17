@@ -34,6 +34,21 @@ ecosystem hasn't caught up to TS 7 yet. Re-verified after the downgrade:
 build`/`typecheck`/`lint` all still pass clean, and a from-scratch
 `npm ci` installs without any peer-dependency errors.
 
+## `zod` version (2026-08-17)
+
+Pinned to `^3.25.0` (not `^3.24.1`) per design.md D3 — 3.25.0 is the first
+release where zod's own type inference is compatible with the version the
+`@modelcontextprotocol/sdk@^1.x` line's peer expectations assume, and it's
+the v3 line (not `zod/v4`) since this repo's schemas are authored in
+standard `z.object({...})` v3 style with no `zod/v4`-specific import
+paths. Confirmed via `npm view zod versions` that `3.25.76` is the latest
+published patch on the 3.25.x branch as of today, with no breaking
+changes relevant to the schemas in this repo; `^3.25.0` remains installed
+as the range in `package.json` (resolves to `3.25.76` in
+`package-lock.json`) rather than bumping the written range to match the
+resolved patch, to keep the floor explicit and match the decision as
+recorded.
+
 ## npm Trusted Publishing bootstrap order (2026-08-17)
 
 Confirmed via npm's docs and current community writeups: npm's web UI for
