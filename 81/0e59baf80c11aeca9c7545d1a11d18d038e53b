@@ -1,0 +1,39 @@
+.github/workflows/ci.yml
+  s_3a033726412e9f::t_11d12a66860d0d 31-33
+src/client.ts
+  s_3a033726412e9f::t_ea2f99b0fe517b 1-105
+src/client.test.ts
+  s_3a033726412e9f::t_8defb0c7394ef3 1-39,45-47,49-50
+  s_3a033726412e9f::t_9528550c76963f 40-44,48
+package.json
+  s_3a033726412e9f::t_f0deab8596a5f1 36
+  s_3a033726412e9f::t_95b7a5bcffd6ae 41
+  s_3a033726412e9f::t_bfa3af5736f05b 33
+  s_3a033726412e9f::t_c161c71f44d23c 44-45
+src/errors.ts
+  s_3a033726412e9f::t_ea8782bee954af 1-80
+src/errors.test.ts
+  s_3a033726412e9f::t_a1ad158e9e825b 88-89
+  s_3a033726412e9f::t_686ee885121bcc 86,90
+  s_3a033726412e9f::t_20addd727066d5 1-85,87,91-122
+tsconfig.build.json
+  s_3a033726412e9f::t_97b6cdd87c1d62 1-4
+package-lock.json
+  s_3a033726412e9f::t_73c257abd48e79 20,23-24,236-242,305-584,606-615,846-958,1051-1060,1159-1168,1191-1197,1280-1289,1337-1343,1520-1529,1570-1579,1786-1800,2080-2083,2085,2087,2090,2093-2128,2131-2143,2145-2149,2152-2376,2448-2466,2504-2517,2627-2640,2663-2691,2778-2810,2990-3013,3023-3046,3064-3073,3178-3184,3213-3380,3396-3412
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "810e59baf80c11aeca9c7545d1a11d18d038e53b",
+  "prompts": {},
+  "sessions": {
+    "s_3a033726412e9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484fc3e6-9b2d-4e4a-a52c-a2e35b7904b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Ashwin Easo <ashwineaso@gmail.com>"
+    }
+  }
+}
