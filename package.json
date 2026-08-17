@@ -32,9 +32,13 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "typescript": "^7.0.2"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.67.0"
   }
 }
