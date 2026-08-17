@@ -1,0 +1,41 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          # Do not cache dependencies in a release build.
+          cache: ''
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      # Requires the npm package's "Trusted Publisher" to be configured on
+      # npmjs.com to point at this repo + this workflow file (see
+      # docs/decisions.md and the Task 2 report for exact steps). Publishes
+      # with npm CLI >=11.5.1 (bundled with Node >=22.14.0) authenticate via
+      # OIDC — no NPM_TOKEN secret is used or required. Provenance
+      # attestation is generated automatically under trusted publishing.
+      - name: Publish to npm
+        run: npm publish
