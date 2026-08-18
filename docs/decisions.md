@@ -12,10 +12,10 @@ Set to `>=22` rather than the `>=20` suggested as a default in the task
 brief. Node 20 reached end-of-life on 2026-04-30 (confirmed via
 nodejs.org/en/about/eol as of today), so publishing a new package today
 with a `>=20` floor would recommend an unsupported runtime to consumers.
-Node 22 is Maintenance LTS (EOL 2027-04-30). This also happens to satisfy
-npm's Trusted Publishing requirement that publishes run under npm CLI
->=11.5.1, which itself requires Node >=22.14.0 — so CI's publish workflow
-uses `actions/setup-node` with `node-version: '22'`, matching `engines.node`.
+Node 22 is Maintenance LTS (EOL 2027-04-30). npm's Trusted Publishing
+requires npm CLI >=11.5.1, but Node 22 bundles npm 10.9.8 — the publish
+workflow must explicitly upgrade npm before calling `npm publish` to
+ensure Trusted Publishing/OIDC support.
 
 ## Build tooling: TypeScript version (2026-08-17, revised same day)
 

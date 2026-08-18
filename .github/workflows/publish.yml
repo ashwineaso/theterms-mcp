@@ -31,11 +31,16 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upgrade npm for Trusted Publishing support
+        run: npm install -g npm@latest
+
+      - run: npm --version
+
       # Requires the npm package's "Trusted Publisher" to be configured on
       # npmjs.com to point at this repo + this workflow file (see
       # docs/decisions.md and the Task 2 report for exact steps). Publishes
-      # with npm CLI >=11.5.1 (bundled with Node >=22.14.0) authenticate via
-      # OIDC — no NPM_TOKEN secret is used or required. Provenance
-      # attestation is generated automatically under trusted publishing.
+      # with npm CLI >=11.5.1 authenticate via OIDC — no NPM_TOKEN secret is
+      # used or required. Provenance attestation is generated automatically
+      # under trusted publishing.
       - name: Publish to npm
         run: npm publish
