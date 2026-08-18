@@ -1,6 +1,6 @@
 {
   "name": "@theterms/mcp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "MCP server for TheTerms — expose the TheTerms REST API as tools for AI agents.",
   "license": "MIT",
