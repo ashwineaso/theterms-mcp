@@ -10,7 +10,7 @@
  * `Response` (or a config failure) into the right `CallToolResult` shape.
  */
 import type { CallToolResult, ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
-import { TheTermsConfigError, theTermsFetch, type TheTermsRequest } from "../client.js";
+import { TheTermsConfigError, resolveRequestUrl, theTermsFetch, type TheTermsRequest } from "../client.js";
 import { toErrorResult } from "../errors.js";
 
 /**
@@ -23,12 +23,17 @@ import { toErrorResult } from "../errors.js";
  *    this must never be a process crash or uncaught exception.
  *  - A non-ok REST response is handed to `errors.ts`'s `toErrorResult`.
  *  - A success response's JSON body is wrapped as `CallToolResult` text
- *    content (`JSON.stringify`), uniformly across all 10 tools.
- *
- * Genuine network-level failures (DNS, connection refused, etc.) are
- * allowed to propagate — the SDK's own request handler catches any
- * exception a tool callback throws and converts it into an `isError`
- * result too, so this never crashes the server process either.
+ *    content (`JSON.stringify`), uniformly across all 10 tools. If the body
+ *    isn't valid JSON despite the 200 (e.g. an interposing proxy or a
+ *    misconfigured base URL serving HTML), this is caught and reported as
+ *    a legible `isError` result rather than leaking a raw `SyntaxError`.
+ *  - Genuine network-level failures (DNS, connection refused, TLS errors,
+ *    etc.) are caught and reported as an `isError` result carrying the
+ *    HTTP method, the resolved target URL, and the underlying `cause.code`
+ *    when present (e.g. `ECONNREFUSED`/`ENOTFOUND`) — this is the most
+ *    likely real-user failure mode (a misconfigured `THETERMS_API_BASE_URL`),
+ *    so it gets the same actionable treatment as every other failure path
+ *    instead of the SDK's generic, contentless `error.message` fallback.
  */
 export async function callTheTermsApi(request: TheTermsRequest): Promise<CallToolResult> {
   let response: Response;
@@ -38,14 +43,48 @@ export async function callTheTermsApi(request: TheTermsRequest): Promise<CallToo
     if (error instanceof TheTermsConfigError) {
       return { isError: true, content: [{ type: "text", text: error.message }] };
     }
-    throw error;
+
+    const causeCode = (error as { cause?: { code?: string } }).cause?.code;
+    let targetUrl: string;
+    try {
+      targetUrl = resolveRequestUrl(request);
+    } catch {
+      // Config became invalid between theTermsFetch's own readConfig() and
+      // here — vanishingly unlikely, but fall back to the bare path rather
+      // than letting a second error mask the first.
+      targetUrl = request.path;
+    }
+
+    const causeSuffix = causeCode ? ` (${causeCode})` : "";
+    return {
+      isError: true,
+      content: [
+        {
+          type: "text",
+          text: `TheTerms API request failed: ${request.method} ${targetUrl}${causeSuffix}. This usually means THETERMS_API_BASE_URL is misconfigured or the API is unreachable from this network.`,
+        },
+      ],
+    };
   }
 
   if (!response.ok) {
     return toErrorResult(response);
   }
 
-  const data: unknown = await response.json();
+  let data: unknown;
+  try {
+    data = await response.json();
+  } catch {
+    return {
+      isError: true,
+      content: [
+        {
+          type: "text",
+          text: `TheTerms API returned a non-JSON response (HTTP ${response.status}).`,
+        },
+      ],
+    };
+  }
   return { content: [{ type: "text", text: JSON.stringify(data) }] };
 }
 

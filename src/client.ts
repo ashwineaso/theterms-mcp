@@ -79,6 +79,21 @@ function buildUrl(baseUrl: string, path: string, searchParams?: TheTermsRequest[
 }
 
 /**
+ * Resolves the full target URL (base URL + path + query) for a request,
+ * without performing the fetch. Exposed so callers (`rest-tool.ts`'s
+ * network-error diagnostics) can report *where* a request was headed
+ * without duplicating URL-building logic here. Safe to surface: the API
+ * key is sent only as a header (`X-Api-Key`), never part of the URL.
+ *
+ * Throws `TheTermsConfigError` under the same conditions as
+ * `theTermsFetch` (missing `THETERMS_API_KEY`/`THETERMS_API_BASE_URL`).
+ */
+export function resolveRequestUrl(request: TheTermsRequest): string {
+  const { baseUrl } = readConfig();
+  return buildUrl(baseUrl, request.path, request.searchParams).toString();
+}
+
+/**
  * Performs a single REST v1 request. Returns the raw `Response` — the
  * caller is responsible for checking `response.ok` and, on failure,
  * handing the response to `errors.ts` for translation into a

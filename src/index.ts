@@ -7,16 +7,30 @@
  * this package supports (no hosted/remote component).
  */
 import { realpathSync } from "node:fs";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerAllTools } from "./tools/index.js";
 
+/**
+ * The package's own version, read from `package.json` at runtime rather
+ * than hardcoded — reported to every MCP client in the `initialize`
+ * handshake (`serverInfo.version`), so client-side logs can distinguish
+ * which build they're talking to (e.g. 0.1.0, the symlink-broken release,
+ * from 0.1.1+, the fix). `package.json` sits one directory up from this
+ * file both in `src/` (source) and in `dist/` (built, since `tsc`'s
+ * `rootDir`/`outDir` preserve the same relative layout), and it's always
+ * included in the published tarball (`files: ["dist"]` plus npm's implicit
+ * inclusion of `package.json`), so this is safe in every run mode.
+ */
+const packageVersion = (createRequire(import.meta.url)("../package.json") as { version: string }).version;
+
 /** Builds a fully-configured server instance (all 10 tools registered) without connecting a transport. */
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "theterms-mcp",
-    version: "0.0.0",
+    version: packageVersion,
   });
   registerAllTools(server);
   return server;
@@ -38,18 +52,24 @@ async function main(): Promise<void> {
 // to the *real* path the symlink points at — so the two strings never
 // match and the server silently never starts. Resolving both sides to
 // their real filesystem path before comparing fixes this.
-function isMainModule(): boolean {
-  if (process.argv[1] === undefined) {
+//
+// Exported (not just a local closure) so `index.test.ts` can regression-test
+// this exact bug with a real `fs.symlinkSync` fixture — this is the one
+// defect in this codebase that already shipped broken to npm once
+// (0.1.0, fixed in 0d68fd5), so it needs a standing guard, not just a
+// throwaway manual repro.
+export function isMainModule(metaUrl: string, argv1: string | undefined): boolean {
+  if (argv1 === undefined) {
     return false;
   }
   try {
-    return realpathSync(fileURLToPath(import.meta.url)) === realpathSync(process.argv[1]);
+    return realpathSync(fileURLToPath(metaUrl)) === realpathSync(argv1);
   } catch {
     return false;
   }
 }
 
-if (isMainModule()) {
+if (isMainModule(import.meta.url, process.argv[1])) {
   main().catch((error: unknown) => {
     console.error("theterms-mcp: fatal error starting server:", error);
     process.exitCode = 1;

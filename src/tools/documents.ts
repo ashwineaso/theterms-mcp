@@ -75,7 +75,7 @@ export const updateDraftTool = {
   name: "update_draft",
   config: {
     description:
-      'Replace a document\'s current draft version\'s content (clauses) and settings. IMPORTANT: this REPLACES the entire clauses array — there is no patch/merge on the server, so any clause you omit is permanently deleted, not preserved. You MUST call get_document first to fetch the document\'s current draft version, then pass its FULL, current "content.clauses" array back here (including every clause you are not changing) alongside whatever edits you are making.',
+      'Replace a document\'s current draft version\'s content (clauses) and settings. IMPORTANT: this REPLACES the entire clauses array — there is no patch/merge on the server, so any clause you omit is permanently deleted, not preserved. You MUST call get_document first to fetch the document\'s current draft version, then pass its FULL, current "content.clauses" array back here (including every clause you are not changing) alongside whatever edits you are making. `settings` is likewise replaced in full on every update, not merged — carry the current draft version\'s `settings` object forward from get_document unless you are deliberately changing it.',
     inputSchema: updateDraftInputSchema,
     annotations: IDEMPOTENT_MUTATION_ANNOTATIONS,
   },
