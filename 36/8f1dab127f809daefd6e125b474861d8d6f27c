@@ -1,0 +1,21 @@
+package-lock.json
+  s_3a033726412e9f::t_2c79adab0ac051 3,9
+package.json
+  s_3a033726412e9f::t_b223073b4868e1 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "368f1dab127f809daefd6e125b474861d8d6f27c",
+  "prompts": {},
+  "sessions": {
+    "s_3a033726412e9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484fc3e6-9b2d-4e4a-a52c-a2e35b7904b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Ashwin Easo <ashwineaso@gmail.com>"
+    }
+  }
+}
