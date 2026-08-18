@@ -1,0 +1,24 @@
+README.md
+  s_3a033726412e9f::t_25bd848cf1b90b 4-16
+src/client.test.ts
+  s_3a033726412e9f::t_a9664a46f284e3 51-97
+  s_3a033726412e9f::t_76ccb537b7cfd5 17
+  s_3a033726412e9f::t_3ee09c687254d6 44
+  s_3a033726412e9f::t_fc88ed4a8b1545 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e5f88321a12576c5c9178ded4b6133a1ac4714fc",
+  "prompts": {},
+  "sessions": {
+    "s_3a033726412e9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484fc3e6-9b2d-4e4a-a52c-a2e35b7904b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Ashwin Easo <ashwineaso@gmail.com>"
+    }
+  }
+}
