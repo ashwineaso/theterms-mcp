@@ -1,0 +1,41 @@
+src/tools/index.ts
+  s_3a033726412e9f::t_aefa88dfde0a09 1-73
+src/index.ts
+  s_3a033726412e9f::t_113679c65cf7e4 2-37
+src/tools/signing-requests.ts
+  s_3a033726412e9f::t_48847ef4379a48 1-73
+src/tools/documents.test.ts
+  s_3a033726412e9f::t_dba782da9fbb96 1
+  s_3a033726412e9f::t_b3594f1a40d033 15-18
+  s_3a033726412e9f::t_57dcce69017e49 2-14,19-62
+src/tools/signing-requests.test.ts
+  s_3a033726412e9f::t_4574768e286cc1 2-14,19-64
+  s_3a033726412e9f::t_7a1b9fc13735c3 1
+  s_3a033726412e9f::t_0367edb65f6acb 15-18
+src/tools/containers.ts
+  s_3a033726412e9f::t_7e41703214164f 1-29
+src/tools/rest-tool.ts
+  s_3a033726412e9f::t_804fed3249b5a5 1-83
+src/tools/rest-tool.test.ts
+  s_3a033726412e9f::t_1eab07c1929134 1-66
+src/tools/documents.ts
+  s_3a033726412e9f::t_588d4899af5fed 1-100
+src/index.test.ts
+  s_3a033726412e9f::t_7c85d046671b86 1-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "b97f26d7538f1de639a8efceff324b9f24cf70a6",
+  "prompts": {},
+  "sessions": {
+    "s_3a033726412e9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484fc3e6-9b2d-4e4a-a52c-a2e35b7904b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Ashwin Easo <ashwineaso@gmail.com>"
+    }
+  }
+}
